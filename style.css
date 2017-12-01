@@ -1,0 +1,9 @@
+.jumbotron {
+	background-image: url("newsPic.jpg");
+}
+
+.panel-primary {
+	background-image: url("wallpaper.jpg");
+	color: #fff;
+}
+
