@@ -114,44 +114,53 @@
 
 <script>
 
-$("#run-search").on('click', function() {
+  $("#run-search").on('click', function() {
 
-var apiKey = "402071e04f184b93b3888403fd208067"
-var searchTerm = $("#search-term").val();
-var numRecords = $("#num-records-select").val();
-var startYear = $('#start-year').val();
-var endYear = $('#end-year').val();
-var url = "https://api.nytimes.com/svc/search/v2/articlesearch.json?api-key=" + apiKey + "&q=" + searchTerm + "&begin_date=" +
-startYear + "0101&end_date=" + endYear + "1231";
+    var apiKey = "402071e04f184b93b3888403fd208067"
+    var searchTerm = $("#search-term").val();
+    var numRecords = $("#num-records-select").val();
+    var startYear = $('#start-year').val();
+    var endYear = $('#end-year').val();
 
-console.log(url);
+    var url = "https://api.nytimes.com/svc/search/v2/articlesearch.json?api-key=" + apiKey + "&q=" + searchTerm
 
-$.ajax({
-  url: url,
-  method: "GET"
-  }).done(function(response) {
-  
-  console.log(response.response);
-    var articleRange = response.response;
+    if (startYear !== '') {
+      url = url + '&begin_date=' + startYear + '0101';
+    };
 
-    for (var i = 0; i < numRecords; i++) {
-      var articleUrl = articleRange.docs[i].snippet;
-     
-     var newsClip = $('<div>');
-     newsClip.html(articleUrl);
+    if (endYear !== '') {
+      url = url + '&end_date=' + startYear + '1231';
+    };
 
-     $('#well-section').prepend(newsClip);
+    console.log(url);
 
-      
-    }
-  $("#clear-all").on('click', function() {
-    $('#well-section').empty();
-  });
+    $.ajax({
+      url: url,
+      method: "GET"
+    }).done(function(response) {
 
-});
-})
+      console.log(response.response);
+      var articleRange = response.response.docs;
+
+      for (var i = 0; i < numRecords; i++) {
+
+        var article = articleRange[i].snippet;
+        var articleDiv = $('<div>');
+        articleDiv.attr('class', 'well')
+        articleDiv.html((i + 1) + ': ' + article);
+
+       $('#well-section').append(articleDiv);
+      }
+
+      $("#clear-all").on('click', function() {
+        $('#well-section').empty();
+      });
+
+    });
+  })
 
 </script>
+
 
 
 
