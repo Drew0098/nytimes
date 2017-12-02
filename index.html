@@ -65,7 +65,7 @@
               </div>
 
               <!-- Here we have our final submit button -->
-              <button type="submit" class="btn btn-default" id="run-search"><i class="fa fa-search"></i> Search</button>
+              <button type="button" class="btn btn-default" id="run-search"><i class="fa fa-search"></i> Search</button>
               <button type="button" class="btn btn-default" id="clear-all"><i class="fa fa-trash"></i> Clear Results</button>
 
             </form>
@@ -100,21 +100,65 @@
 
         <!-- Line Break followed by closing -->
         <hr>
-<<<<<<< HEAD
+
         <h5 class="text-center"><small>Made by Ahmed with lots and lots of <i class="fa fa-heart"> ...... and group 3's</i></small></h5>
-=======
->>>>>>> 3afc080572e008e403871611772f1f24dba99674
+
 
       </div>
     </div>
 
   </div>
 
-  <!-- jQuery JS -->
-  <script src="https://code.jquery.com/jquery.js"></script>
+<script type="text/javascript"></script>
+ <script src="https://code.jquery.com/jquery.js"></script>
 
+<script>
+
+$("#run-search").on('click', function() {
+
+var apiKey = "402071e04f184b93b3888403fd208067"
+var searchTerm = $("#search-term").val();
+var numRecords = $("#num-records-select").val();
+var startYear = $('#start-year').val();
+var endYear = $('#end-year').val();
+var url = "https://api.nytimes.com/svc/search/v2/articlesearch.json?api-key=" + apiKey + "&q=" + searchTerm + "&begin_date=" +
+startYear + "0101&end_date=" + endYear + "1231";
+
+console.log(url);
+
+$.ajax({
+  url: url,
+  method: "GET"
+  }).done(function(response) {
+  
+  console.log(response.response);
+    var articleRange = response.response;
+
+    for (var i = 0; i < numRecords; i++) {
+      var articleUrl = articleRange.docs[i].snippet;
+     
+     var newsClip = $('<div>');
+     newsClip.html(articleUrl);
+
+     $('#well-section').prepend(newsClip);
+
+      
+    }
+  $("#clear-all").on('click', function() {
+    $('#well-section').empty();
+  });
+
+});
+})
+
+</script>
+
+
+
+  <!-- jQuery JS -->
+ 
   <!-- Code to the JavaScript File -->
-  <script src="nytCode.js"></script>
+  
 
 </body>
 
